@@ -1,4 +1,5 @@
 name: Fix Dependencies
+
 on:
   workflow_dispatch:
 
@@ -14,10 +15,8 @@ jobs:
         with:
           node-version: 18
 
-      - name: Enable and prepare pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@8.15.4 --activate
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install dependencies with pinned version
         run: |
@@ -28,6 +27,10 @@ jobs:
         run: |
           git config user.name "vercel-bot"
           git config user.email "vercel-bot@example.com"
-          git add package.json pnpm-lock.yaml
-          git commit -m "fix: pin @radix-ui/react-use-callback-ref to 1.0.0"
-          git push
+          git add package.json pnpm-lock.yaml || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "fix: pin @radix-ui/react-use-callback-ref to 1.0.0"
+            git push
+          fi
