@@ -1,0 +1,29 @@
+name: Fix Dependencies
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies with pinned version
+        run: |
+          pnpm add @radix-ui/react-use-callback-ref@1.0.0 --save-exact
+          pnpm install
+
+      - name: Commit changes
+        run: |
+          git config user.name "vercel-bot"
+          git config user.email "vercel-bot@example.com"
+          git add package.json pnpm-lock.yaml
+          git commit -m "fix: pin @radix-ui/react-use-callback-ref to 1.0.0"
+          git push
