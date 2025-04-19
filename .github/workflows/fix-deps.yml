@@ -15,8 +15,8 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Install corepack (to enable pnpm)
+        run: corepack enable
 
       - name: Install dependencies with pinned version
         run: |
