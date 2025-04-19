@@ -8,16 +8,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up Node.js and enable Corepack
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Enable Corepack and install pnpm
+      - name: Enable Corepack and prepare pnpm
         run: |
           corepack enable
-          npm install -g pnpm
-          pnpm --version
+          corepack prepare pnpm@latest --activate
 
       - name: Install dependencies with pinned version
         run: |
